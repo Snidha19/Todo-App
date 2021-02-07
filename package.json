@@ -11,6 +11,7 @@
     "@vue/eslint-config-airbnb": "^5.3.0",
     "core-js": "^3.6.5",
     "firebase": "^8.2.6",
+    "firebaseui": "^4.7.3",
     "vue": "^2.6.11",
     "vue-router": "^3.5.1",
     "vuetify": "^2.4.3",

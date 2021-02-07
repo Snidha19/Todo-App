@@ -1,25 +1,25 @@
 <template>
-    <div id="app">
-    <v-app id="inspire">
-    <div class="pa-0" style="max-height:100vh;overflow:hidden;">
-      <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-        height="100px" width="100vw"
-      ></v-img>
-    <v-card class="mx-auto elevation-5 text-center pa-5" max-width="350" style="border-radius:20px;position:relative;top:-50px;"
+<div id="app">
+  <v-app id="inspire">
+    <div class="pa-0" style="max-height:100vh;">
+    <v-card class="mx-auto elevation-5 text-center pa-5" max-width="350" style="border-radius:20px;position:relative;top:40px;"
     >
+      <v-form @submit.prevent="SignIn">
       <v-card-subtitle class="title black--text pa-1">
-       LOGIN
+        Sign Up
       </v-card-subtitle>
-      <v-text-field hide-details color="red" label="Email"></v-text-field>
-      <v-text-field color="red" label="Password" type="password"></v-text-field>
-      <v-card-actions>  
-        <v-btn color="red" dark block rounded >
-        login
+      <v-text-field color="green" label="Email" v-model="email" type="email" required></v-text-field>
+      <v-text-field color="green" label="Password" type="password" v-model="password" required></v-text-field>
+      <v-text-field color="green" label="Confirm Password" type="password" v-model="confirm_password" required></v-text-field>
+        <v-btn color="green" dark block rounded type="submit">
+          sign in
         </v-btn>
-      </v-card-actions>
+      </v-form>
     </v-card>
-      <div class="text-center" style="position:relative;top:-40px">
-         <p class="mt-3">Don't have an account yet? <span class="red--text" style="cursor:pointer">Register here</span></p>
+      <div class="text-center" style="position:relative;top:40px">
+        <p class="ma-0" style="position:relative;top:10px;font-size:12px"> OR </p>
+        <v-btn color="grey" rounded outlined class="ma-2" width="200" style="position:relative;top:15px">
+        <v-icon left color="red" size ="20px" >mdi-google</v-icon>Login with google</v-btn>
      </div>
       </div>
   </v-app>
@@ -27,33 +27,40 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase from 'firebase/app';
 
 export default {
+  name: 'Register',
   data() {
     return {
-        name: "",
-        email: "",
-        password: "",
-        error: null,
+      email: '',
+      password: '',
+      confirm_password: '',
+      error: null,
     };
   },
   methods: {
-    submit() {
+    SignIn() {
       firebase
         .auth()
-        .createUserWithEmailAndPassword(this.form.email, this.form.password)
-        .then(data => {
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .then((data) => {
           data.user
             .updateProfile({
-              displayName: this.form.name
+              displayName: this.email,
             })
-            .then(() => {});
+            .then(() => {
+              this.$router.replace({ name: 'login' });
+            });
         })
-        .catch(err => {
-          this.error = err.message;
+        .catch(() => {
+          if (this.password !== this.confirm_password) {
+            alert('Passwords does not match');
+          } else {
+            alert('Check if your email is valid and your password consists of atleast six characters');
+          }
         });
-    }
-  }
+    },
+  },
 };
 </script>
