@@ -10,7 +10,8 @@
       </v-card-subtitle>
       <v-text-field color="green" label="Email" v-model="email" type="email" required></v-text-field>
       <v-text-field color="green" label="Password" type="password" v-model="password" required></v-text-field>
-      <v-text-field color="green" label="Confirm Password" type="password" v-model="confirm_password" required></v-text-field>
+      <v-text-field color="green" label="Confirm Password" type="password" v-model="confirm_password" :rules="confirmPasswordRules" required>
+      </v-text-field>
         <v-btn color="green" dark block rounded type="submit">
           sign in
         </v-btn>
@@ -36,6 +37,9 @@ export default {
       email: '',
       password: '',
       confirm_password: '',
+      confirmPasswordRules: [
+        (value) => value === this.password || 'Passwords does not match',
+      ],
       error: null,
     };
   },
@@ -54,11 +58,7 @@ export default {
             });
         })
         .catch(() => {
-          if (this.password !== this.confirm_password) {
-            alert('Passwords does not match');
-          } else {
-            alert('Check if your email is valid and your password consists of atleast six characters');
-          }
+          alert('Check if your email is valid and your password consists of atleast six characters');
         });
     },
   },
