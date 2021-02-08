@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import 'firebase/auth';
 
 Vue.use(Vuex);
 
@@ -28,8 +29,8 @@ export default new Vuex.Store({
       commit('SET_LOGGED_IN', user !== null);
       if (user) {
         commit('SET_USER', {
-          displayName: user.displayName,
           email: user.email,
+          password: user.password,
         });
       } else {
         commit('SET_USER', null);
