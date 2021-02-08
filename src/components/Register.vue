@@ -17,11 +17,6 @@
         </v-btn>
       </v-form>
     </v-card>
-      <div class="text-center" style="position:relative;top:40px">
-        <p class="ma-0" style="position:relative;top:10px;font-size:12px"> OR </p>
-        <v-btn color="grey" rounded outlined class="ma-2" width="200" style="position:relative;top:15px">
-        <v-icon left color="red" size ="20px" >mdi-google</v-icon>Login with google</v-btn>
-     </div>
       </div>
   </v-app>
 </div>

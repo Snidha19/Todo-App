@@ -1,6 +1,7 @@
 <template>
- <div id="todo">
-    <h1>Todo page</h1>
+ <div id="Todo">
+ <h1 class="subheading grey--text ml-4">Dashboard</h1>
+    <h1>Todos</h1>
     <v-btn middle @click.prevent="LogOut"> Log Out </v-btn>
  </div>
 </template>

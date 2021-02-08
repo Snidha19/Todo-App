@@ -18,8 +18,8 @@
     </v-card>
     <div class="text-center" style="position:relative;top:40px">
         <p class="ma-0" style="position:relative;top:10px;font-size:12px"> OR </p>
-        <v-btn color="grey" rounded outlined class="ma-2" width="200" style="position:relative;top:12px">
-        <v-icon left color="red" size ="20px" >mdi-google</v-icon>Login with google</v-btn>
+        <v-btn color="grey" rounded outlined class="ma-2" width="220" style="position:relative;top:12px" @click='socialLogin'>
+        <v-icon left color="red" size ="20px" >mdi-google</v-icon>Sign in with google</v-btn>
      </div>
       <div class="text-center" style="position:relative;top:50px">
          <p class="mt-3" style="color:grey; font-size:12px">Don't have an account yet?</p>
@@ -55,6 +55,15 @@ export default {
         .catch(() => {
           alert('Invalid email or password');
         });
+    },
+    socialLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      // eslint-disable-next-line no-unused-vars
+      firebase.auth().signInWithPopup(provider).then((result) => {
+        this.$router.replace('home');
+      }).catch((err) => {
+        alert(`Oops.${err.message}`);
+      });
     },
   },
 };
