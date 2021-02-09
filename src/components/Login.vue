@@ -19,7 +19,7 @@
     <div class="text-center" style="position:relative;top:40px">
         <p class="ma-0" style="position:relative;top:10px;font-size:12px"> OR </p>
         <v-btn color="grey" rounded outlined class="ma-2" width="220" style="position:relative;top:12px" @click='socialLogin'>
-        <v-icon left color="red" size ="20px" >mdi-google</v-icon>Sign in with google</v-btn>
+        <v-icon left color="red" size ="20px" style="position:relative" >mdi-google</v-icon>Sign in with google</v-btn>
      </div>
       <div class="text-center" style="position:relative;top:50px">
          <p class="mt-3" style="color:grey; font-size:12px">Don't have an account yet?</p>

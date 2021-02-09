@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/firestore';
 import store from '@/store/store';
 
 const firebaseConfig = {
@@ -24,5 +25,7 @@ firebase.getCurrentUser = () => new Promise((resolve, reject) => {
     resolve(user);
   }, reject);
 });
+// eslint-disable-next-line no-unused-vars
+const db = firebase.firestore();
 
 export default firebase;
