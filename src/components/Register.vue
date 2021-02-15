@@ -8,9 +8,10 @@
       <v-card-subtitle class="title black--text pa-1">
         Sign Up
       </v-card-subtitle>
-      <v-text-field color="green" label="Email" v-model="email" type="email" required></v-text-field>
-      <v-text-field color="green" label="Password" type="password" v-model="password" required></v-text-field>
-      <v-text-field color="green" label="Confirm Password" type="password" v-model="confirm_password" :rules="confirmPasswordRules" required>
+      <v-text-field color="green" label="Email" prepend-icon="mdi-account-circle" v-model="email" type="email" required></v-text-field>
+      <v-text-field color="green" label="Password" prepend-icon="mdi-lock" type="password" v-model="password" required></v-text-field>
+      <v-text-field color="green" label="Confirm Password" prepend-icon="mdi-lock"
+      type="password" v-model="confirm_password" :rules="confirmPasswordRules" required>
       </v-text-field>
         <v-btn color="green" dark block rounded type="submit">
           sign in
@@ -59,3 +60,6 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+</style>

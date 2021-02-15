@@ -7,8 +7,8 @@
       <v-card-subtitle class="title black--text pa-1">
        LOGIN
       </v-card-subtitle>
-      <v-text-field color="green" label="Email" v-model="email" type="email" required></v-text-field>
-      <v-text-field color="green" label="Password" type="password" v-model="password" required></v-text-field>
+      <v-text-field color="green" label="Email" prepend-icon="mdi-account-circle" v-model="email" type="email" required></v-text-field>
+      <v-text-field color="green" label="Password"  prepend-icon="mdi-lock" type="password" v-model="password" required></v-text-field>
       <v-card-actions>
         <v-btn color="green" dark block rounded type="submit">
         login
@@ -18,7 +18,7 @@
     </v-card>
     <div class="text-center" style="position:relative;top:40px">
         <p class="ma-0" style="position:relative;top:10px;font-size:12px"> OR </p>
-        <v-btn color="grey" rounded outlined class="ma-2" width="220" style="position:relative;top:12px" @click='socialLogin'>
+        <v-btn color="grey" rounded outlined class="ma-2" width="220" style="position:relative;top:12px" @click='googleLogin'>
         <v-icon left color="red" size ="20px" style="position:relative" >mdi-google</v-icon>Sign in with google</v-btn>
      </div>
       <div class="text-center" style="position:relative;top:50px">
@@ -56,11 +56,11 @@ export default {
           alert('Invalid email or password');
         });
     },
-    socialLogin() {
+    googleLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
       // eslint-disable-next-line no-unused-vars
       firebase.auth().signInWithPopup(provider).then((result) => {
-        this.$router.replace('home');
+        this.$router.replace({ name: 'todos' });
       }).catch((err) => {
         alert(`Oops.${err.message}`);
       });
@@ -68,3 +68,6 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+</style>

@@ -1,11 +1,11 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import 'firebase/firestore';
-import store from '@/store/store';
+import store from '@/store/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAHK1Hgx-J_sUNjSmAslby6D2mySNIjWio',
   authDomain: 'todos-9aa10.firebaseapp.com',
+  databaseURL: 'https://todos-9aa10-default-rtdb.firebaseio.com',
   projectId: 'todos-9aa10',
   storageBucket: 'todos-9aa10.appspot.com',
   messagingSenderId: '757729758687',
@@ -25,7 +25,5 @@ firebase.getCurrentUser = () => new Promise((resolve, reject) => {
     resolve(user);
   }, reject);
 });
-// eslint-disable-next-line no-unused-vars
-const db = firebase.firestore();
 
 export default firebase;
