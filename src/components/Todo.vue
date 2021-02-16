@@ -22,18 +22,18 @@
       v-model="todoText"
       @keydown.enter="addTodo"
     />
-
-    <v-card v-for="item in todos" v-bind:key= "item.text" v-model="todoText" class="mx-auto" style='top:100px;'>
+    <v-card v-for="(item,key) in todos" v-bind:key="key" v-model="todoText" class="mx-auto" style='top:100px;'>
     <v-layout row wrap>
     <v-flex xs10 md4>
-    <v-card-title>
-    <v-checkbox color="success"></v-checkbox>
+    <v-card-title :class="{ 'text--line-through': (item.isDone == true)}">
+    <v-checkbox :input-value="item.isDone" v-on:change="setStatus(key, item.isDone, 'isDone')" color="success"></v-checkbox>
     {{ item.text }}
     </v-card-title>
     </v-flex>
 
     <v-flex xs4 sm4 md2 class="pt-3">
-    <v-text-field align-center type="date" label="Due on" color="purple lighten-3">
+    <v-text-field align-center type="date" label="Due on" color="purple lighten-3"
+    v-model="date" @keydown.enter="setdueDate(key)">
     </v-text-field>
     </v-flex>
 
@@ -55,8 +55,11 @@
     <v-btn icon>
     <v-icon color="purple">mdi-pencil</v-icon>
     </v-btn>
-    <v-btn icon>
+    <v-btn v-if="item.isDone" icon @click="remove(key)">
     <v-icon color="red lighten-2">mdi-delete</v-icon>
+    </v-btn>
+    <v-btn icon v-if="item.isDone" color="purple lighten-3" @click="hideCompleted(key,true)">
+    <v-icon> mdi-eye </v-icon>
     </v-btn>
     </v-flex>
     </v-layout>
@@ -80,33 +83,53 @@ export default {
   data() {
     return {
       todoText: '',
-      todos: {},
+      todos: [],
       todoRef: null,
       editing: null,
+      todoKey: '',
+      date: null,
     };
   },
   created() {
-    this.todoRef = database.ref(`/users/${this.$store.state.auth.user.uid}`);
+    this.todoRef = database.ref(`/users/${this.$store.state.auth.user.data.uid}`);
+    this.$store.dispatch('todos/setTodosRef', this.todoRef);
   },
   mounted() {
     this.todoRef.on('value', (snapshot) => {
       this.todos = snapshot.val();
-      console.log(this.todos);
+      this.$store.dispatch('todos/setTodos', this.todos);
     });
   },
   methods: {
-    // addTodo() {
-    //   this.todos.push({ text: this.todoText.trim() });
-    //   this.todoText = '';
-    // },
     addTodo() {
       this.todoRef.push({
         text: this.todoText.trim(),
         isDone: false,
+        dueDate: '',
+        hideDone: false,
       });
       this.todoText = '';
     },
-
+    setdueDate(key) {
+      if (this.date !== null) {
+        database.ref(`users/${this.$store.state.auth.user.data.uid}/${key}/dueDate`).set(this.date);
+      }
+    },
+    remove(task) {
+      firebase
+        .database()
+        .ref(`users/${this.$store.state.auth.user.data.uid}/${task}`)
+        .set({});
+    },
+    setStatus(key, status, data) {
+      firebase
+        .database()
+        .ref(`users/${this.$store.state.auth.user.data.uid}/${key}/${data}`)
+        .set(!status);
+    },
+    hideCompleted(key, bool) {
+      database.ref(`users/${this.$store.state.auth.user.data.uid}/${key}/hideDone`).set(bool);
+    },
     LogOut() {
       firebase
         .auth()
@@ -118,7 +141,22 @@ export default {
         });
     },
   },
+  computed: {
+    activeTodos() {
+      return this.todos.values.filter((todo) => !todo.isDone).length;
+    },
+    completedTodos() {
+      return this.todos.filter((todo) => todo.isDone);
+    },
+    countCompleted() {
+      return this.todos.filter((todo) => todo.isDone).length;
+    },
+  },
 };
 </script>
-<style scoped>
+
+<style lang="scss" scoped>
+.text--line-through {
+  text-decoration: line-through;
+}
 </style>

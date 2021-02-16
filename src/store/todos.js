@@ -3,11 +3,9 @@ import 'firebase/database';
 
 export default {
   state: {
-    todos: [
-      { text: 'Learn JavaScript ES6+ goodies', isDone: true },
-      { text: 'Learn Vue', isDone: false },
-      { text: 'Build something awesome', isDone: false },
-    ],
+    todos: null,
+    todosRef: null,
+    todoKey: null,
   },
   mutations: {
     addTodo(state, todo) {
@@ -16,11 +14,26 @@ export default {
     setTodos(state, todos) {
       state.todos = todos;
     },
+    setTodosRef(state, ref) {
+      state.todosRef = ref;
+    },
+    setTodoKey(state, key) {
+      state.todoKey = key;
+    },
     removeTodo(state, index) {
       state.todos.splice(index, 1);
     },
   },
   actions: {
+    setTodos(context, todos) {
+      context.commit('setTodos', todos);
+    },
+    setTodosRef(context, ref) {
+      context.commit('setTodosRef', ref);
+    },
+    setTodoKey(context, key) {
+      context.commit('setTodoKey', key);
+    },
     clearCompleted(context) {
       context.commit('todos/setTodos', context.state.todos.filter((todo) => !todo.isDone), { root: true });
     },

@@ -50,6 +50,7 @@ export default {
               displayName: this.email,
             })
             .then(() => {
+              this.$store.dispatch('auth/fetchUser', data);
               this.$router.replace({ name: 'login' });
             });
         })

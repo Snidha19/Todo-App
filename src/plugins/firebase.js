@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import store from '@/store/auth';
+import store from '@/store/index';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAHK1Hgx-J_sUNjSmAslby6D2mySNIjWio',
@@ -16,7 +16,7 @@ firebase.initializeApp(firebaseConfig);
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 firebase.auth().onAuthStateChanged((user) => {
-  store.dispatch('fetchUser', user);
+  store.dispatch('auth/fetchUser', user);
 });
 
 firebase.getCurrentUser = () => new Promise((resolve, reject) => {
